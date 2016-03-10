@@ -1,4 +1,4 @@
-from emborec import app
+from app import app
 import os
 
 

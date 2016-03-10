@@ -1,0 +1,115 @@
+<!doctype html>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://github.com/twitter/typeahead.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$('input.typeahead').typeahead({
+		name: 'accounts',
+		local: ['Audi', 'BMW', 'Bugatti', 'Ferrari', 'Ford', 'Lamborghini', 'Mercedes Benz', 'Porsche', 'Rolls-Royce', 'Volkswagen']
+	});
+});
+</script>
+
+<title>EMBO Project Recommender</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+
+<div class="page">
+  <h1>EMBO Project Recommender</h1>
+  <div class="metanav">
+  {% if session.username %}
+  Logged in as {{ session.username }}
+  {% endif %}
+  <a href="{{ url_for('index') }}">Home</a>
+  {% if not session.username %}
+    <a href="{{ url_for('register') }}">Register</a>
+    <a href="{{ url_for('login') }}">Login</a>
+  {% else %}
+    <a href="{{ url_for('profile', username=session.username) }}">Profile</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  {% endif %}
+  </div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">What it is?</h3>
+  </div>
+  <div class="panel-body">
+    Depending of user input the system will recommend business process
+  </div>
+</div>
+
+    <img class="center-block" src="static/img/model.png" class="img-responsive" alt="Responsive image">
+
+    <!-- Single button -->
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                State <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+            {% for row in propsStates %}
+                <li><a href="#">{{ row }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    <!-- Single button -->
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Role <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+            {% for row in propsRoles %}
+                <li><a href="#">{{ row }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    <!-- Single button -->
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Event <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+            {% for row in propsEvents %}
+                <li><a href="#">{{ row }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    <!-- Single button -->
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Activity <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+            {% for row in propsActivities %}
+                <li><a href="#">{{ row }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    <!-- Single button -->
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Object <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+            {% for row in propsObjects %}
+                <li><a href="#">{{ row }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block body %}{% endblock %}
+
+
+</div>

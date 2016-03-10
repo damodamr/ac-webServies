@@ -1,0 +1,152 @@
+{% extends "layout.html" %}
+{% block body %}
+<br>
+<hr>
+<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#search">Search</a></li>
+  <li><a data-toggle="tab" href="#create">Create</a></li>
+  <li><a data-toggle="tab" href="#about">About</a></li>
+</ul>
+
+<br>
+
+
+{% if session.username %}
+
+<div class="tab-content">
+<div id="search" class="tab-pane fade in active">
+<h3>Search for concept from a knowledge database</h3>
+<form action="{{ url_for('add_post') }}" method="post">
+<dl>
+<br>
+
+ <div class="row">
+  <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">State</button>
+      </span>
+      <input type="text" class="form-control" name="stateR" placeholder="Search for State of Role entity...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+  <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">State</button>
+      </span>
+      <input type="text" class="form-control" name="stateO" placeholder="Search for State of Object entity...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+ <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Role</button>
+      </span>
+      <input type="text" class="form-control" name="role" placeholder="Search for Role entity...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+ <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Event</button>
+      </span>
+      <input type="text" class="form-control" name="event" placeholder="Search for Event entity...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+  <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Activity</button>
+      </span>
+      <input type="text" class="form-control" name="activity" placeholder="Search for Activity entity...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+     <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Object</button>
+      </span>
+      <input type="text" class="form-control" name="object" placeholder="Search for Object entity...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+</dl>
+<input type="submit" value="Search">
+</form>
+</div>
+
+<div id="create" class="tab-pane fade">
+<h3>Create new ontological pattern</h3>
+<form action="{{ url_for('add_post2') }}" method="post">
+<dl>
+<br>
+ <div class="row">
+  <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">State</button>
+      </span>
+      <input type="text" class="form-control" name="stateCreateR" placeholder="Create State of Role entity...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+    <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">State</button>
+      </span>
+      <input type="text" class="form-control" name="stateCreateO" placeholder="Create State of Object entity...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+ <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Role</button>
+      </span>
+      <input type="text" class="form-control" name="roleCreate" placeholder="Create Role entity...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+ <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Event</button>
+      </span>
+      <input type="text" class="form-control" name="eventCreate" placeholder="Create Event entity...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+  <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Activity</button>
+      </span>
+      <input type="text" class="form-control" name="activityCreate" placeholder="Create Activity entity...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+     <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Object</button>
+      </span>
+      <input type="text" class="form-control" name="objectCreate" placeholder="Create Object entity...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+</dl>
+
+<input type="submit" value="Create">
+</form>
+
+</div>
+
+<div id="about" class="tab-pane fade">
+    <h3>This app is part of the EMBO Project developed at Brunel University</h3>
+</div>
+</div>
+
+{% endif %}
+
+<br>
+
+<h3>What users searched before</h3>
+
+{% include "display_posts.html" %}
+{% endblock %}
