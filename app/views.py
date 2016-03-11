@@ -174,20 +174,26 @@ def profile(username):
     posts = user_being_viewed.get_recent_posts()
 
     similar = []
+    similar2 = []
+
     common = []
 
     if logged_in_username:
         logged_in_user = User(logged_in_username)
 
         if logged_in_user.username == user_being_viewed.username:
-            similar = logged_in_user.get_similar_users()
+            similar = logged_in_user.get_other_users()
+            similar2 = logged_in_user.get_other_users2()
+            flash('similar %s' %similar2)
+            #flash('similar %s' %similar)
         else:
             common = logged_in_user.get_commonality_of_user(user_being_viewed)
-
+            #flash('common %s' %common)
     return render_template(
         'profile.html',
         username=username,
         posts=posts,
         similar=similar,
+        similar2=similar2,
         common=common
     )

@@ -154,6 +154,7 @@ class User:
     def get_recent_posts(self):
         query = """
         MATCH (user:User)-[:CREATED]->(n)
+        WHERE user.username = {username}
         RETURN user.username AS username, n
         """
 
@@ -230,19 +231,43 @@ class User:
 
         return graph.cypher.execute(query, username=self.username)
 
+    def get_other_users(self):
+        # Find three users who are most similar to the logged-in user
+        # based on tags they've both blogged about.
+        query = """
+        MATCH (user:User)
+        WHERE user.username <> {username}
+        RETURN user.username AS similar_user
+        """
+
+        return graph.cypher.execute(query, username=self.username)
+
+    def get_other_users2(self):
+        # Find three users who are most similar to the logged-in user
+        # based on tags they've both blogged about.
+        query = """
+        MATCH (they:User)
+        MATCH (you:User {username: {username} })
+        WHERE they<>you
+        OPTIONAL MATCH (they)-[:CREATED]->(n)<-[:CREATED]-(you)
+        RETURN they.username AS users, COUNT(n) AS entities
+        ORDER BY entities DESC
+        """
+
+        return graph.cypher.execute(query, username=self.username)
+
+
     def get_commonality_of_user(self, other):
         # Find how many of the logged-in user's posts the other user
         # has liked and which tags they've both blogged about.
         query = """
         MATCH (they:User {username: {they} })
         MATCH (you:User {username: {you} })
-        OPTIONAL MATCH (they)-[:LIKED]->(post:Post)<-[:PUBLISHED]-(you)
-        OPTIONAL MATCH (they)-[:PUBLISHED]->(:Post)<-[:TAGGED]-(tag:Tag),
-                       (you)-[:PUBLISHED]->(:Post)<-[:TAGGED]-(tag)
-        RETURN COUNT(DISTINCT post) AS likes, COLLECT(DISTINCT tag.name) AS tags
+        OPTIONAL MATCH (they)-[:CREATED]->(n)<-[:CREATED]-(you)
+        RETURN COUNT(n) AS entities, n as entity, they as user
         """
 
-        return graph.cypher.execute(query, they=other.username, you=self.username)[0]
+        return graph.cypher.execute(query, they=other.username, you=self.username)
 
 def get_todays_recent_posts():
     query = """

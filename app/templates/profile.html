@@ -1,34 +1,46 @@
-{% extends "layout.html" %}
-{% block body %}
+{% extends 'layout.html' %}
 
+{% block body %}
+<br>
 <h2>{{ username }}'s profile</h2>
 
 {% if session.username %}
     {% if session.username == username %}
-        <h3>Users similar to you:</h3>
+
+        <h3>Check out users who created the most amount of equal entities as you:</h3>
+
+          {% for user in similar2 %}
+            <p>
+            Check out
+            <a href="{{ url_for('profile', username=user.users) }}">{{ user.users }}</a>
+            profile <i> </i> who created {{ user.entities }} identical entities as you.
+            </p>
+          {% else %}
+            <p>There are no any other users!</p>
+          {% endfor %}
+
+        <h3>Check out other users:</h3>
 
           {% for user in similar %}
             <p>
+            Check out
             <a href="{{ url_for('profile', username=user.similar_user) }}">{{ user.similar_user }}</a>
-            also blogs about <i>{{ ", ".join(user.tags) }}</i>
+            profile <i> </i>
             </p>
           {% else %}
-            <p>There aren't any users who've blogged about the same tags as you!</p>
+            <p>There are no any other users!</p>
           {% endfor %}
 
         <h3>Your recent posts:</h3>
 
     {% else %}
 
-  <p>{{ username }} has liked {{ common.likes }} of your posts and
-      {% if common.tags %}
-      also blogs about <i>{{ ", ".join(common.tags) }}</i>
-      {% else %}
-      hasn't blogged about any of the same tags
-      {% endif %}
-  </p>
+           {% for ents in common %}
+             <h5>  <p><strong>{{ ents.user.username }}</strong> has created the identical entity named: <mark>{{ ents.entity }}</mark>
+               </p></h5>
+           {% endfor %}
 
-  <h3>{{ username }}'s recent nodes:</h3>
+  <h3>{{ username }}'s recent entities:</h3>
 
     {% endif %}
 {% endif %}
