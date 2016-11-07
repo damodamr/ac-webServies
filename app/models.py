@@ -165,23 +165,23 @@ def get_todays_recent_posts():
 
     return graph.cypher.execute(query, today=date())
 
-def fill_states():
+#def fill_states():
 
-        moSub, moPred, moObj = loadOntologyEntities.query()
+        #moSub, moPred, moObj = loadOntologyEntities.query()
 
-        return moSub
+        #return moSub
 
-def fill_roles():
+#def fill_roles():
 
-        moSub, moPred, moObj = loadOntologyEntities.query()
+        #moSub, moPred, moObj = loadOntologyEntities.query()
 
-        return moPred
+        #return moPred
 
-def fill_events():
+#def fill_events():
 
-        moSub, moPred, moObj = loadOntologyEntities.query()
+        #moSub, moPred, moObj = loadOntologyEntities.query()
 
-        return moObj
+        #return moObj
 
 
 def fill_activities():

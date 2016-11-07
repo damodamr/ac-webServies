@@ -1,4 +1,4 @@
-from .models import User, get_todays_recent_posts, fill_states, fill_roles, fill_events, fill_objects, fill_activities
+from .models import User, get_todays_recent_posts, fill_objects, fill_activities
 from flask import Flask, request, session, redirect, url_for, render_template, flash
 import pprint
 import json
@@ -8,12 +8,12 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     posts = get_todays_recent_posts()
-    statesFill = fill_states()
-    rolesFill = fill_roles()
-    eventsFill = fill_events()
+    #statesFill = fill_states()
+    #rolesFill = fill_roles()
+    #eventsFill = fill_events()
     activitiesFill = fill_activities()
     objectsFill = fill_objects()
-    return render_template('index.html', posts=posts, propsStates=statesFill, propsRoles=rolesFill, propsEvents=eventsFill,propsActivities=activitiesFill, propsObjects=objectsFill)
+    return render_template('index.html', posts=posts,propsActivities=activitiesFill, propsObjects=objectsFill)
 
 @app.route('/register', methods=['GET','POST'])
 def register():
