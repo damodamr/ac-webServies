@@ -4,7 +4,7 @@
 <hr>
 <ul class="nav nav-tabs">
   <li class="active"><a data-toggle="tab" href="#search">Search</a></li>
-  <li><a data-toggle="tab" href="#create">Create</a></li>
+  <li><a data-toggle="tab" href="#create">Upload</a></li>
   <li><a data-toggle="tab" href="#about">About</a></li>
 </ul>
 
@@ -15,7 +15,7 @@
 
 <div class="tab-content">
 <div id="search" class="tab-pane fade in active">
-<h3>Search for concept from a knowledge database</h3>
+<h3>Search for sounds and music pieces</h3>
 <form action="{{ url_for('add_post') }}" method="post">
 <dl>
 <br>
@@ -24,49 +24,33 @@
   <div class="col-lg-6">
     <div class="input-group">
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">State</button>
+        <button class="btn btn-default" type="button">Freesound</button>
       </span>
-      <input type="text" class="form-control" name="stateR" placeholder="Search for State of Role entity...">
+      <input type="text" class="form-control" name="stateR" placeholder="Search Freesound database...">
     </div><!-- /input-group -->
   </div><!-- /.col-lg-6 -->
   <div class="col-lg-6">
     <div class="input-group">
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">State</button>
+        <button class="btn btn-default" type="button">Jamendo</button>
       </span>
-      <input type="text" class="form-control" name="stateO" placeholder="Search for State of Object entity...">
+      <input type="text" class="form-control" name="stateO" placeholder="Search Jamendo database...">
     </div><!-- /input-group -->
   </div><!-- /.col-lg-6 -->
  <div class="col-lg-6">
     <div class="input-group">
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Role</button>
+        <button class="btn btn-default" type="button">Search</button>
       </span>
-      <input type="text" class="form-control" name="role" placeholder="Search for Role entity...">
+      <input type="text" class="form-control" name="role" placeholder="Aggregated search...">
     </div><!-- /input-group -->
   </div><!-- /.col-lg-6 -->
  <div class="col-lg-6">
     <div class="input-group">
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Event</button>
+        <button class="btn btn-default" type="button">Search +</button>
       </span>
-      <input type="text" class="form-control" name="event" placeholder="Search for Event entity...">
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-  <div class="col-lg-6">
-    <div class="input-group">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Activity</button>
-      </span>
-      <input type="text" class="form-control" name="activity" placeholder="Search for Activity entity...">
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-     <div class="col-lg-6">
-    <div class="input-group">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Object</button>
-      </span>
-      <input type="text" class="form-control" name="object" placeholder="Search for Object entity...">
+      <input type="text" class="form-control" name="event" placeholder="Complex query...">
     </div><!-- /input-group -->
   </div><!-- /.col-lg-6 -->
 </div><!-- /.row -->
@@ -76,69 +60,76 @@
 </div>
 
 <div id="create" class="tab-pane fade">
-<h3>Create new ontological pattern</h3>
+<h3>Upload file</h3>
 <form action="{{ url_for('add_post2') }}" method="post">
 <dl>
 <br>
- <div class="row">
-  <div class="col-lg-6">
+<input type="file" name="fileinput" multiple>
+<br>
+
+<div class="fileinput fileinput-new" data-provides="fileinput">
+
+</div>
+
+<br>
+Choose action
+<br>
+
+<input type="radio" name="options" id="option1" value="Remix"> Remix </input><br>
+<input type="radio" name="options" id="option2" value="Tweak"> Tweak </input><br>
+<input type="radio" name="options" id="option3" value="Copy"> Copy </input><br>
+
+<br>
+Calculate licence
+<br>
+<input type="radio" name="licenceCU" id="licenceCU1" value="licenceCU1"> Commmercial use YES </input><br>
+<input type="radio" name="licenceCU" id="licenceCU2" value="licenceCU2"> Commmercial use NO </input><br>
+
+<input type="radio" name="licenceCH" id="licenceCH1" value="licenceCH1"> User can make changes: YES </input><br>
+<input type="radio" name="licenceCH" id="licenceCH2" value="licenceCH2"> User can make changes: NO </input><br>
+
+<input type="radio" name="licenceDIST" id="licenceDIST1" value="licenceDIST1"> Must the changed work be distributed under same conditions: YES </input><br>
+<input type="radio" name="licenceDIST" id="licenceDIST2" value="licenceDIST2"> Must the changed work be distributed under same conditions: NO </input><br>
+
+<br>
+Choose licence
+<br>
+
+<input type="radio" name="licence" id="licence1" value="CC0"> CC0 </input><br>
+<input type="radio" name="licence" id="licence2" value="BY"> BY </input><br>
+<input type="radio" name="licence" id="licence3" value="BYSA"> BY SA </input><br>
+<input type="radio" name="licence" id="licence4" value="BYND"> BY ND </input><br>
+<input type="radio" name="licence" id="licence5" value="BYNC"> BY NC </input><br>
+<input type="radio" name="licence" id="licence6" value="BYNCSA"> BY NC SA </input><br>
+<input type="radio" name="licence" id="licence7" value="BYNCND"> BY NC ND </input><br>
+
+
+
+<br>
+
+<div class="col-lg-6">
     <div class="input-group">
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">State</button>
+        <button class="btn btn-default" type="button">Name the new sound: </button>
       </span>
-      <input type="text" class="form-control" name="stateCreateR" placeholder="Create State of Role entity...">
+      <input type="text" class="form-control" name="newSound" placeholder="">
     </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-    <div class="col-lg-6">
-    <div class="input-group">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">State</button>
-      </span>
-      <input type="text" class="form-control" name="stateCreateO" placeholder="Create State of Object entity...">
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
- <div class="col-lg-6">
-    <div class="input-group">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Role</button>
-      </span>
-      <input type="text" class="form-control" name="roleCreate" placeholder="Create Role entity...">
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
- <div class="col-lg-6">
-    <div class="input-group">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Event</button>
-      </span>
-      <input type="text" class="form-control" name="eventCreate" placeholder="Create Event entity...">
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-  <div class="col-lg-6">
-    <div class="input-group">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Activity</button>
-      </span>
-      <input type="text" class="form-control" name="activityCreate" placeholder="Create Activity entity...">
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-     <div class="col-lg-6">
-    <div class="input-group">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Object</button>
-      </span>
-      <input type="text" class="form-control" name="objectCreate" placeholder="Create Object entity...">
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-</div><!-- /.row -->
+</div><!-- /.col-lg-6 -->
+
+<br>
+
+<br>
+<br>
+<input type="submit" value="Create">
+
 </dl>
 
-<input type="submit" value="Create">
 </form>
 
 </div>
 
 <div id="about" class="tab-pane fade">
-    <h3>This app is part of the EMBO Project developed at Brunel University</h3>
+    <h3>This app is part of the AudioCommons Project developed at Queen Mary University of London</h3>
 </div>
 </div>
 

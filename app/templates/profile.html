@@ -7,13 +7,13 @@
 {% if session.username %}
     {% if session.username == username %}
 
-        <h3>Check out users who created the most amount of equal entities as you:</h3>
+        <h3>Check out users who searched for similar terms as you:</h3>
 
           {% for user in similar2 %}
             <p>
             Check out
             <a href="{{ url_for('profile', username=user.users) }}">{{ user.users }}</a>
-            profile <i> </i> who created {{ user.entities }} identical entities as you.
+            profile <i> </i> who searched for {{ user.entities }} identical terms as you.
             </p>
           {% else %}
             <p>There are no any other users!</p>
@@ -31,16 +31,16 @@
             <p>There are no any other users!</p>
           {% endfor %}
 
-        <h3>Your recent posts:</h3>
+        <h3>Your recent searches:</h3>
 
     {% else %}
 
            {% for ents in common %}
-             <h5>  <p><strong>{{ ents.user.username }}</strong> has created the identical entity named: <mark>{{ ents.entity }}</mark>
+             <h5>  <p><strong>{{ ents.user.username }}</strong> has searched for identical term named: <mark>{{ ents.entity }}</mark>
                </p></h5>
            {% endfor %}
 
-  <h3>{{ username }}'s recent entities:</h3>
+  <h3>{{ username }}'s recent terms:</h3>
 
     {% endif %}
 {% endif %}

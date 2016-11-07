@@ -1,5 +1,7 @@
-from .models import User, get_todays_recent_posts, fill_states, fill_roles, fill_events, fill_activities, fill_objects
+from .models import User, get_todays_recent_posts, fill_states, fill_roles, fill_events, fill_objects, fill_activities
 from flask import Flask, request, session, redirect, url_for, render_template, flash
+import pprint
+import json
 
 app = Flask(__name__)
 
@@ -11,19 +13,21 @@ def index():
     eventsFill = fill_events()
     activitiesFill = fill_activities()
     objectsFill = fill_objects()
-    return render_template('index.html', posts=posts, propsStates=statesFill, propsRoles=rolesFill, propsEvents=eventsFill, propsActivities=activitiesFill, propsObjects=objectsFill)
+    return render_template('index.html', posts=posts, propsStates=statesFill, propsRoles=rolesFill, propsEvents=eventsFill,propsActivities=activitiesFill, propsObjects=objectsFill)
 
 @app.route('/register', methods=['GET','POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        group = request.form['group']
+        age = request.form['age']
 
       #  if len(username) < 1:
       #      flash('Your username must be at least one character.')
       #  elif len(password) < 5:
       #      flash('Your password must be at least 5 characters.')
-        if not User(username).register(password):
+        if not User(username).register(password, group, age):
             flash('A user with that username already exists.')
         else:
             session['username'] = username
@@ -59,96 +63,62 @@ def add_post():
     stateO = request.form['stateO']
     event = request.form['event']
     role = request.form['role']
-    object = request.form['object']
-    activity = request.form['activity']
+
 
     if stateR:
-        states, states2 = User(session['username']).get_statesR(stateR)
-        for r in states:
-            # get the node you return in your query
-            my_node = r[0]
-            # get the properties of your node
-            props = my_node.get_properties()
-            flash('This state is connected with following entity: %s .' %my_node, ' with properties: %s.' %props)
-        for r in states2:
-            my_node = r[0]
-            props = my_node.get_properties()
-            flash('This state is created in the following event: %s .' %my_node, ' with properties: %s.' %props)
+        test = User(session['username']).get_statesR(stateR)
+        flash('Freesound output: %s .' % test)
 
     if stateO:
-        states, states2 = User(session['username']).get_statesO(stateO)
-        for r in states:
-            # get the node you return in your query
-            my_node = r[0]
-            # get the properties of your node
-            props = my_node.get_properties()
-            flash('This state is connected with following entity: %s .' %my_node, ' with properties: %s.' %props)
-        for r in states2:
-            my_node = r[0]
-            props = my_node.get_properties()
-            flash('This state is created in the following event: %s .' %my_node, ' with properties: %s.' %props)
-
-    if event:
-        events, events2 = User(session['username']).get_events(event)
-        for r in events:
-            # get the node you return in your query
-            my_node = r[0]
-            # get the properties of your node
-            props = my_node.get_properties()
-            flash('This event creates following business process state: %s.' %my_node, ' with properties: %s.' %props )
-        for r in events2:
-            my_node = r[0]
-            props = my_node.get_properties()
-            flash('This event is part of the following business process activity: %s .' %my_node, ' with properties: %s.' %props)
+        test2 = User(session['username']).get_statesO(stateO)
+        flash('Jamendo output: %s .' % test2)
 
     if role:
-        roles, roles2 = User(session['username']).get_roles(role)
-        for r in roles:
-            my_node = r[0]
-            props = my_node.get_properties()
-            flash('This role is part of the following activity: %s .' %my_node, ' with properties: %s.' %props)
-        for r in roles2:
-            my_node = r[0]
-            props = my_node.get_properties()
-            flash('This role is in state of: %s .' %my_node, ' with properties: %s.' %props)
+        test, test2 = User(session['username']).get_roles(role)
+        flash('Freesound: %s .' % test)
+        flash('Jamendo: %s .' % test2)
 
-    if object:
-        objects, objects2= User(session['username']).get_objects(object)
-        for r in objects:
-             my_node = r[0]
-             props = my_node.get_properties()
-             flash('This object is manipulated in the following business process state: %s .' %my_node, ' with properties: %s.' %props)
+    if event:
+        test, test2, test3 = User(session['username']).get_events(event)
+        flash('Dependancy list: %s .' % json.dumps(test, indent=4, sort_keys=True))
+        flash('DBPedia entities: %s .' % json.dumps(test2, indent=4, sort_keys=True))
+        flash('DBPedia relations: %s .' % json.dumps(test3, indent=4, sort_keys=True))
+        #flash('DBPedia relations: %s .' % json.dumps(test4, indent=4, sort_keys=True))
 
-        for r in objects2:
-             my_node = r[0]
-             props = my_node.get_properties()
-             flash('This object is part of the following business process activity: %s .' %my_node, ' with properties: %s.' %props)
 
-    if activity:
-        activities = User(session['username']).get_activities(activity)
-        for r in activities:
-            # get the node you return in your query
-            my_node = r[0]
-            # get the properties of your node
-            props = my_node.get_properties()
-            flash('This Activity is made of following business process entities: %s.' %my_node, ' with properties: %s.' %props )
 
     return redirect(url_for('index'))
 
 @app.route('/add_post2', methods=['POST'])
 def add_post2():
-    stateCreateR = request.form['stateCreateR']
-    stateCreateO = request.form['stateCreateO']
-    eventCreate = request.form['eventCreate']
-    roleCreate = request.form['roleCreate']
-    objectCreate = request.form['objectCreate']
-    activityCreate = request.form['activityCreate']
+    stateCreateR = request.form['options']
 
-    if not (stateCreateR and stateCreateO and roleCreate and eventCreate and activityCreate and objectCreate):
-        flash('You must fill in all boxes to create pattern!')
-    else:
-        #flash('Creating new pattern: %s, %s, %s, %s, %s') %stateCreate %roleCreate %eventCreate %activityCreate %objectCreate
-        User(session['username']).add_node(stateCreateR, stateCreateO, roleCreate, eventCreate, activityCreate, objectCreate)
+    licenceCalcCU = request.form['licenceCU']
+    licenceCalcCH = request.form['licenceCH']
+    licenceCalcDIST = request.form['licenceDIST']
+
+    stateCreateO = request.form['licence']
+    file = request.form['fileinput']
+    newSound = request.form['newSound']
+    g = User(session['username']).add_node(stateCreateR,stateCreateO, file, newSound)
+    flash('Ledger output: %s .' % g)
+    lice = 'dont know'
+
+    if licenceCalcCU == 'licenceCU2' and licenceCalcCH == 'licenceCH2':
+        lice = 'CC_BY_NC_ND'
+    if licenceCalcCU == 'licenceCU2' and licenceCalcCH == 'licenceCH1' and licenceCalcDIST == 'licenceDIST2':
+        lice = 'CC_BY_NC'
+    if licenceCalcCU == 'licenceCU2' and licenceCalcCH == 'licenceCH1' and licenceCalcDIST == 'licenceDIST1':
+        lice = 'CC_BY_NC_SA'
+    if licenceCalcCU == 'licenceCU1' and licenceCalcCH == 'licenceCH2':
+        lice = 'CC_BY_ND'
+    if licenceCalcCU == 'licenceCU1' and licenceCalcCH == 'licenceCH1' and licenceCalcDIST == 'licenceDIST2':
+        lice = 'CC_BY'
+    if licenceCalcCU == 'licenceCU1' and licenceCalcCH == 'licenceCH1' and licenceCalcDIST == 'licenceDIST1':
+        lice = 'CC_BY_SA'
+
+    flash('You need licence: %s .' % lice)
+
 
     return redirect(url_for('index'))
 

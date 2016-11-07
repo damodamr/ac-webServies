@@ -19,12 +19,12 @@ $(document).ready(function(){
 });
 </script>
 
-<title>EMBO Project Recommender</title>
+<title>AudioCommons Search</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
 
 <div class="page">
-  <h1>EMBO Project Recommender</h1>
+  <h1>AudioCommons Search</h1>
   <div class="metanav">
   {% if session.username %}
   Logged in as {{ session.username }}
@@ -44,16 +44,16 @@ $(document).ready(function(){
     <h3 class="panel-title">What it is?</h3>
   </div>
   <div class="panel-body">
-    Depending of user input the system will recommend business process
+    Search music services with AudioCommons Search engine
   </div>
 </div>
 
-    <img class="center-block" src="static/img/model.png" class="img-responsive" alt="Responsive image">
+    <img class="center-block" src="static/img/project_logo_v3.jpg" class="img-responsive" alt="Responsive image">
 
     <!-- Single button -->
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                State <span class="caret"></span>
+                Ont. subjects <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
             {% for row in propsStates %}
@@ -64,7 +64,7 @@ $(document).ready(function(){
     <!-- Single button -->
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Role <span class="caret"></span>
+                Ont. pred. <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
             {% for row in propsRoles %}
@@ -75,7 +75,7 @@ $(document).ready(function(){
     <!-- Single button -->
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Event <span class="caret"></span>
+                Ont. objects <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
             {% for row in propsEvents %}
@@ -86,7 +86,7 @@ $(document).ready(function(){
     <!-- Single button -->
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Activity <span class="caret"></span>
+                History <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
             {% for row in propsActivities %}
@@ -94,20 +94,13 @@ $(document).ready(function(){
             {% endfor %}
             </ul>
         </div>
-    <!-- Single button -->
-        <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Object <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-            {% for row in propsObjects %}
-                <li><a href="#">{{ row }}</a></li>
-            {% endfor %}
-            </ul>
-        </div>
 
   {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
+    <div class="panel panel-default">
+  <div class="panel-body">
+    {{ message }}
+  </div>
+</div>
   {% endfor %}
   {% block body %}
 
