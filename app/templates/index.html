@@ -5,6 +5,8 @@
 <ul class="nav nav-tabs">
   <li class="active"><a data-toggle="tab" href="#search">Search</a></li>
   <li><a data-toggle="tab" href="#create">Upload</a></li>
+    <li><a data-toggle="tab" href="#tag">Tag</a></li>
+    <li><a data-toggle="tab" href="#comment">Comment</a></li>
   <li><a data-toggle="tab" href="#about">About</a></li>
 </ul>
 
@@ -57,6 +59,7 @@
 </dl>
 <input type="submit" value="Search">
 </form>
+<br>
 </div>
 
 <div id="create" class="tab-pane fade">
@@ -128,12 +131,60 @@ Choose licence
 
 </div>
 
+<div id="tag" class="tab-pane fade">
+<h3>Tag file</h3>
+<form action="{{ url_for('add_tag') }}" method="post">
+<dl>
+<br>
+<input type="file" name="fileinput" multiple>
+<br>
+
+<div class="fileinput fileinput-new" data-provides="fileinput">
+
+</div>
+
+<br>
+Add tags to this field (use / between tags)
+<br>
+    <br>
+
+
+
+<div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Tags: </button>
+      </span>
+      <input type="text" class="form-control" name="listOfTags" placeholder="">
+    </div><!-- /input-group -->
+</div><!-- /.col-lg-6 -->
+
+<br>
+
+<br>
+<br>
+<input type="submit" value="Tag">
+
+</dl>
+
+</form>
+
+</div>
+
 <div id="about" class="tab-pane fade">
     <h3>This app is part of the AudioCommons Project developed at Queen Mary University of London</h3>
 </div>
 </div>
 
 {% endif %}
+
+
+<br>
+
+<h3>Search results</h3>
+
+{% include "display_searchResults.html" %}
+
 
 <br>
 

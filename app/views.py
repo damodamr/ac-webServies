@@ -2,6 +2,8 @@ from .models import User, get_todays_recent_posts, fill_objects, fill_activities
 from flask import Flask, request, session, redirect, url_for, render_template, flash
 import pprint
 import json
+from json2html import *
+import HTMLParser
 
 app = Flask(__name__)
 
@@ -63,31 +65,41 @@ def add_post():
     stateO = request.form['stateO']
     event = request.form['event']
     role = request.form['role']
-
+    test = "Search results here"
+    test2 = "Search results here"
+    html_parser = HTMLParser.HTMLParser()
 
     if stateR:
-        test = User(session['username']).get_statesR(stateR)
-        flash('Freesound output: %s .' % test)
+        test = User(session['username']).TextSearch(stateR)
+        #flash('Freesound output: %s .' %test)
+        test = json2html.convert(json=test)
+
 
     if stateO:
-        test2 = User(session['username']).get_statesO(stateO)
-        flash('Jamendo output: %s .' % test2)
+        test2 = User(session['username']).searchJamendo(stateO)
+        #flash('Jamendo output: %s .' %test2)
+        test2 = json2html.convert(json=test2)
 
     if role:
         test, test2 = User(session['username']).get_roles(role)
-        flash('Freesound: %s .' % test)
-        flash('Jamendo: %s .' % test2)
+        #flash('Freesound: %s .' % test)
+        #flash('Jamendo: %s .' % test2)
+        test = json2html.convert(json=test)
+        test2 = json2html.convert(json=test2)
 
     if event:
-        test, test2, test3 = User(session['username']).get_events(event)
-        flash('Dependancy list: %s .' % json.dumps(test, indent=4, sort_keys=True))
-        flash('DBPedia entities: %s .' % json.dumps(test2, indent=4, sort_keys=True))
-        flash('DBPedia relations: %s .' % json.dumps(test3, indent=4, sort_keys=True))
+        test, test2 = User(session['username']).get_events(event)
+        #flash('Freesound list: %s .' %test)
+        #flash('Jamendo list: %s .' %test2)
+        #flash('DBPedia relations: %s .' % json.dumps(test3, indent=4, sort_keys=True))
         #flash('DBPedia relations: %s .' % json.dumps(test4, indent=4, sort_keys=True))
+        test = json2html.convert(json=test)
+        test2 = json2html.convert(json=test2)
 
 
 
-    return redirect(url_for('index'))
+    #return redirect(url_for('index'))
+    return render_template('index.html', test=test, test2=test2 )
 
 @app.route('/add_post2', methods=['POST'])
 def add_post2():
@@ -100,7 +112,7 @@ def add_post2():
     stateCreateO = request.form['licence']
     file = request.form['fileinput']
     newSound = request.form['newSound']
-    g = User(session['username']).add_node(stateCreateR,stateCreateO, file, newSound)
+    g = User(session['username']).UploadFile(stateCreateR,stateCreateO, file, newSound)
     flash('Ledger output: %s .' % g)
     lice = 'dont know'
 
@@ -121,6 +133,17 @@ def add_post2():
 
 
     return redirect(url_for('index'))
+
+@app.route('/add_tag', methods=['POST'])
+def add_tag():
+    file = request.form['fileinput']
+    listOfTags = request.form['listOfTags']
+    g = User(session['username']).TagFile(listOfTags, file)
+
+    #flash('You added following tags: %s to the file %s.' % listOfTags %audiofile )
+
+    return redirect(url_for('index'))
+
 
 @app.route('/like_post/<post_id>')
 def like_post(post_id):
@@ -157,8 +180,8 @@ def profile(username):
             flash('similar %s' %similar2)
             #flash('similar %s' %similar)
         else:
-            common = logged_in_user.get_commonality_of_user(user_being_viewed)
-            #flash('common %s' %common)
+            #common = logged_in_user.get_commonality_of_user(user_being_viewed)
+            flash('common %s' %common)
     return render_template(
         'profile.html',
         username=username,

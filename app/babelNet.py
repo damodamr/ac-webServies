@@ -7,7 +7,7 @@ from StringIO import StringIO
 
 service_url = 'https://babelnet.io/v4/getSenses'
 
-word = 'London'
+word = 'back pain'
 lang = 'EN'
 key  = 'd511cd60-dd10-4130-a56b-0a9fe6e0b0d4'
 
